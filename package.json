@@ -1,0 +1,18 @@
+{
+  "name": "sistem-pelaporan-lingkungan-kota",
+  "version": "1.0.0",
+  "description": "Sistem Informasi Pelaporan Lingkungan Kota (SIPELIK) - Web-Based MPPL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "pelaporan-lingkungan",
+    "civic-tech",
+    "leaflet",
+    "mppl"
+  ],
+  "author": "Tim MPPL",
+  "license": "MIT"
+}
