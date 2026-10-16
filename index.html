@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SIPELIK - Layanan Aspirasi dan Pengaduan Online Lingkungan Kota. Sampaikan laporan kerusakan lingkungan langsung kepada dinas berwenang.">
-  <title>SIPELIK - Layanan Pengaduan Online Lingkungan Kota</title>
+  <meta name="description"
+    content="SIPELIK - Layanan Aspirasi dan Pengaduan Online Lingkungan Kota. Sampaikan laporan kerusakan lingkungan langsung kepada dinas berwenang.">
+  <title>SIMPLE - Layanan Pengaduan Online Lingkungan Kota</title>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <!-- Leaflet CSS for Geospatial Mapping -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 
   <!-- Application Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <!-- Aksesibilitas: Skip Link -->
   <a href="#mainContent" class="skip-link">Langsung ke formulir laporan</a>
@@ -27,13 +32,14 @@
       <div class="nav-brand">
         <a href="#home" class="brand-link" id="brandHomeLink">
           <div class="brand-emblem" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
               <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
             </svg>
           </div>
           <div class="brand-text">
-            <span class="brand-main">SIPELIK!</span>
+            <span class="brand-main">SIMPLE</span>
             <span class="brand-sub">Pengaduan Lingkungan Kota</span>
           </div>
         </a>
@@ -45,7 +51,7 @@
         <button type="button" class="nav-link" data-tab="tabPeta">PETA SEBARAN</button>
         <button type="button" class="nav-link" data-tab="tabLacak">LACAK TIKET</button>
         <button type="button" class="nav-link" data-tab="tabStatistik">STATISTIK</button>
-        <button type="button" class="nav-link" data-tab="tabTentang">TENTANG SIPELIK</button>
+        <button type="button" class="nav-link" data-tab="tabTentang">TENTANG SIMPLE</button>
         <button type="button" class="nav-link hidden" id="navLinkAdmin" data-tab="tabAdmin">PANEL PETUGAS</button>
       </nav>
 
@@ -78,13 +84,14 @@
     <!-- TAB 1: BERANDA (HERO LAPOR! + FORMULIR LAPORAN + ALUR PROSES)  -->
     <!-- ============================================================== -->
     <div id="tabBeranda" class="tab-page active">
-      
+
       <!-- Hero Merah Khas LAPOR! -->
       <section class="lapor-hero">
         <div class="hero-overlay-waves"></div>
         <div class="hero-content">
           <h1 class="hero-title">Layanan Aspirasi dan Pengaduan Online Lingkungan Kota</h1>
-          <p class="hero-lead">Sampaikan laporan Anda langsung kepada instansi dinas lingkungan hidup dan dinas kebersihan kota yang berwenang.</p>
+          <p class="hero-lead">Sampaikan laporan Anda langsung kepada instansi dinas lingkungan hidup dan dinas
+            kebersihan kota yang berwenang.</p>
         </div>
 
         <!-- Kartu Formulir Floating Khas LAPOR! -->
@@ -100,7 +107,8 @@
               <button type="button" class="type-tab-btn" data-type="ASPIRASI" role="tab" aria-selected="false">
                 <span class="type-dot"></span> ASPIRASI
               </button>
-              <button type="button" class="type-tab-btn" data-type="PERMINTAAN INFORMASI" role="tab" aria-selected="false">
+              <button type="button" class="type-tab-btn" data-type="PERMINTAAN INFORMASI" role="tab"
+                aria-selected="false">
                 <span class="type-dot"></span> PERMINTAAN INFORMASI
               </button>
             </div>
@@ -115,12 +123,15 @@
             <form id="formLapor" class="lapor-form" novalidate>
               <div class="form-field">
                 <label for="inputJudul" class="field-label">Judul Laporan <span class="req">*</span></label>
-                <input type="text" id="inputJudul" class="field-input" placeholder="Ketik Judul Laporan Anda" maxlength="120" required>
+                <input type="text" id="inputJudul" class="field-input" placeholder="Ketik Judul Laporan Anda"
+                  maxlength="120" required>
               </div>
 
               <div class="form-field">
                 <label for="inputIsi" class="field-label">Isi Laporan <span class="req">*</span></label>
-                <textarea id="inputIsi" class="field-textarea" rows="4" placeholder="Ketik Isi Laporan Anda (detail masalah, dampak bau/limbah, atau lokasi spesifik)" required></textarea>
+                <textarea id="inputIsi" class="field-textarea" rows="4"
+                  placeholder="Ketik Isi Laporan Anda (detail masalah, dampak bau/limbah, atau lokasi spesifik)"
+                  required></textarea>
               </div>
 
               <div class="form-field-row">
@@ -168,7 +179,8 @@
 
               <div class="form-field">
                 <div class="label-with-action">
-                  <label for="inputAlamat" class="field-label">Lokasi Kejadian Presisi <span class="req">*</span></label>
+                  <label for="inputAlamat" class="field-label">Lokasi Kejadian Presisi <span
+                      class="req">*</span></label>
                   <button type="button" class="action-btn-text" id="btnToggleMiniMap">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
@@ -178,7 +190,8 @@
                     Tentukan Titik di Peta (GPS)
                   </button>
                 </div>
-                <input type="text" id="inputAlamat" class="field-input" placeholder="Masukkan alamat jalan atau patokan lokasi presisi" required>
+                <input type="text" id="inputAlamat" class="field-input"
+                  placeholder="Masukkan alamat jalan atau patokan lokasi presisi" required>
 
                 <!-- Mini Leaflet Map Picker (Foldable) -->
                 <div id="miniMapPickerBox" class="mini-map-box hidden">
@@ -194,10 +207,12 @@
               <div class="form-field">
                 <label class="field-label">Upload Lampiran Bukti Foto</label>
                 <div class="attachment-area" id="boxAttachment">
-                  <input type="file" id="fileAttachment" accept="image/*" class="hidden-file-input" aria-label="Pilih foto lampiran">
+                  <input type="file" id="fileAttachment" accept="image/*" class="hidden-file-input"
+                    aria-label="Pilih foto lampiran">
                   <div class="attachment-prompt" id="promptAttachment">
                     <button type="button" class="btn-upload-fake" id="btnTriggerUpload">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="17 8 12 3 7 8"></polyline>
                         <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -263,7 +278,8 @@
               </svg>
             </div>
             <h3 class="flow-step-title">Proses Verifikasi</h3>
-            <p class="flow-step-desc">Dalam 3 hari, laporan Anda akan diverifikasi dan diteruskan kepada instansi berwenang.</p>
+            <p class="flow-step-desc">Dalam 3 hari, laporan Anda akan diverifikasi dan diteruskan kepada instansi
+              berwenang.</p>
           </div>
 
           <div class="flow-arrow" aria-hidden="true">&rarr;</div>
@@ -288,7 +304,8 @@
               </svg>
             </div>
             <h3 class="flow-step-title">Beri Tanggapan</h3>
-            <p class="flow-step-desc">Anda dapat menanggapi kembali balasan yang diberikan oleh instansi dalam waktu 10 hari.</p>
+            <p class="flow-step-desc">Anda dapat menanggapi kembali balasan yang diberikan oleh instansi dalam waktu 10
+              hari.</p>
           </div>
 
           <div class="flow-arrow" aria-hidden="true">&rarr;</div>
@@ -362,7 +379,8 @@
         <div class="page-header-strip">
           <div>
             <h2 class="page-main-title">Peta Persebaran Aduan Lingkungan Kota</h2>
-            <p class="page-main-desc">Pemantauan visual sebaran lokasi sampah, pencemaran air, dan kerusakan fasilitas umum berbasis Leaflet & OpenStreetMap.</p>
+            <p class="page-main-desc">Pemantauan visual sebaran lokasi sampah, pencemaran air, dan kerusakan fasilitas
+              umum berbasis Leaflet & OpenStreetMap.</p>
           </div>
           <div class="map-controls-row">
             <select id="filterMapStatus" class="field-select select-sm" aria-label="Saring status peta">
@@ -383,7 +401,8 @@
         </div>
 
         <!-- Wadah Peta Full -->
-        <div id="fullMapLeaflet" class="full-map-container" role="region" aria-label="Peta interaktif persebaran aduan"></div>
+        <div id="fullMapLeaflet" class="full-map-container" role="region" aria-label="Peta interaktif persebaran aduan">
+        </div>
 
         <!-- Legenda Status Peta -->
         <div class="map-legend-bar">
@@ -402,24 +421,28 @@
       <section class="page-container narrow-container">
         <div class="page-header-strip text-center-strip">
           <h2 class="page-main-title">Lacak Status Pengaduan Lingkungan</h2>
-          <p class="page-main-desc">Masukkan nomor tiket aduan yang Anda terima untuk melihat transparansi proses penanganan dan catatan petugas lapangan.</p>
+          <p class="page-main-desc">Masukkan nomor tiket aduan yang Anda terima untuk melihat transparansi proses
+            penanganan dan catatan petugas lapangan.</p>
         </div>
 
         <div class="track-input-card">
           <div class="search-input-group">
-            <input type="text" id="inputKodeTiket" class="field-input track-field" placeholder="Masukkan nomor tiket, contoh: LAP-2026-0128" aria-label="Kode Tiket Aduan">
+            <input type="text" id="inputKodeTiket" class="field-input track-field"
+              placeholder="Masukkan nomor tiket, contoh: LAP-2026-0128" aria-label="Kode Tiket Aduan">
             <button type="button" class="btn-lapor-submit btn-track-action" id="btnCariTiket">Cek Status</button>
           </div>
         </div>
 
         <div id="trackResultDisplay" class="track-result-box">
           <div class="empty-state" id="trackEmptyNotice">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="empty-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              class="empty-icon">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
             <h4 class="empty-title">Belum Ada Tiket yang Diperiksa</h4>
-            <p class="empty-desc">Gunakan kolom pencarian di atas atau pilih salah satu laporan untuk melihat progres penanganannya.</p>
+            <p class="empty-desc">Gunakan kolom pencarian di atas atau pilih salah satu laporan untuk melihat progres
+              penanganannya.</p>
           </div>
 
           <div id="trackDetailContainer" class="ticket-full-card hidden">
@@ -437,7 +460,8 @@
         <div class="page-header-strip">
           <div>
             <h2 class="page-main-title">Statistik & Rekapitulasi Laporan Lingkungan</h2>
-            <p class="page-main-desc">Data analitik keterbukaan informasi publik pelaporan lingkungan perkotaan secara real-time.</p>
+            <p class="page-main-desc">Data analitik keterbukaan informasi publik pelaporan lingkungan perkotaan secara
+              real-time.</p>
           </div>
           <div class="stat-kpi-badges">
             <span class="kpi-badge">Total Aduan: <strong id="kpiStatTotal">4</strong></span>
@@ -467,7 +491,8 @@
         <!-- Baris Diagram Horizontal Stacked (Persis Screenshot 3) -->
         <div class="chart-card full-width-chart">
           <h3 class="chart-card-title">Rekapitulasi Berdasarkan Kategori Permasalahan</h3>
-          <p class="chart-card-sub">Volume aduan pada kategori sampah, pencemaran air, udara, fasilitas umum, dan drainase</p>
+          <p class="chart-card-sub">Volume aduan pada kategori sampah, pencemaran air, udara, fasilitas umum, dan
+            drainase</p>
           <div id="chartCategoryBars" class="stacked-bar-container">
             <!-- Rendered by JS -->
           </div>
@@ -484,27 +509,29 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- TAB 5: TENTANG SIPELIK (PERSIS SCREENSHOT 2 "APA ITU LAPOR!?")  -->
+    <!-- TAB 5: TENTANG SIMPLE -->
     <!-- ============================================================== -->
     <div id="tabTentang" class="tab-page hidden">
       <section class="page-container narrow-container">
         <div class="tentang-hero-card">
-          <h2 class="tentang-title">Apa itu SIPELIK?</h2>
+          <h2 class="tentang-title">Apa itu SIMPLE?</h2>
           <p class="tentang-lead">
-            <strong>SIPELIK (Sistem Informasi Pelaporan Lingkungan Kota)</strong> adalah sarana aspirasi dan pengaduan online masyarakat untuk percepatan penanganan masalah fasilitas umum dan pencemaran lingkungan berbasis web.
+            <strong>SIMPLE (Sistem Informasi Pelaporan Lingkungan Kota)</strong> adalah sarana aspirasi dan pengaduan
+            online masyarakat untuk percepatan penanganan masalah fasilitas umum dan pencemaran lingkungan berbasis web.
           </p>
 
           <div class="tentang-divider"></div>
 
-          <h3 class="tentang-subtitle">Latar Belakang & Permasalahan (Slide 2)</h3>
+          <h3 class="tentang-subtitle">Latar Belakang & Permasalahan</h3>
           <ul class="tentang-list">
             <li>Fasilitas lingkungan yang baik meningkatkan kenyamanan dan produktivitas masyarakat kota.</li>
-            <li>Kerusakan fasilitas umum dan pencemaran lingkungan yang dibiarkan dapat mengganggu aktivitas publik dan kesehatan warga.</li>
+            <li>Kerusakan fasilitas umum dan pencemaran lingkungan yang dibiarkan dapat mengganggu aktivitas publik dan
+              kesehatan warga.</li>
             <li>Proses pelaporan konvensional masih lambat, birokratis, dan tidak transparan.</li>
             <li>Dibutuhkan sarana pelaporan digital yang mudah diakses warga, terintegrasi, dan terpusat.</li>
           </ul>
 
-          <h3 class="tentang-subtitle">Keunggulan & Fitur Utama (Slide 3 & 4)</h3>
+          <h3 class="tentang-subtitle">Keunggulan & Fitur Utama</h3>
           <div class="features-pill-grid">
             <div class="feat-card">
               <h4>01. Komunikasi Dua Arah</h4>
@@ -524,7 +551,7 @@
             </div>
           </div>
 
-          <h3 class="tentang-subtitle">Struktur Tim Pengembang MPPL - Agile Scrum (Slide 1 & 8)</h3>
+          <h3 class="tentang-subtitle">Struktur Tim Pengembang MPPL - Agile Scrum</h3>
           <div class="team-table-wrap">
             <table class="team-table">
               <thead>
@@ -534,18 +561,39 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><td>Muhammad Ibnu Hanif</td><td>Project Manager & Scrum Master</td></tr>
-                <tr><td>Nabilah Safawani</td><td>System Analyst</td></tr>
-                <tr><td>Qoisy Ahmad Furqon</td><td>UI/UX Designer</td></tr>
-                <tr><td>Rafly Ahmad Muzaki</td><td>Backend Developer</td></tr>
-                <tr><td>Raihan Fadhila</td><td>Frontend Developer 1</td></tr>
-                <tr><td>Raihan Khoirul Aziz</td><td>Frontend Developer 2</td></tr>
-                <tr><td>Raisya Fathul Jabbar</td><td>QA Tester & Technical Writer</td></tr>
+                <tr>
+                  <td>Muhammad Ibnu Hanif</td>
+                  <td>Project Manager & Scrum Master</td>
+                </tr>
+                <tr>
+                  <td>Nabilah Safawani</td>
+                  <td>System Analyst</td>
+                </tr>
+                <tr>
+                  <td>Qoisy Ahmad Furqon</td>
+                  <td>UI/UX Designer</td>
+                </tr>
+                <tr>
+                  <td>Rafly Ahmad Muzaki</td>
+                  <td>Backend Developer</td>
+                </tr>
+                <tr>
+                  <td>Raihan Fadhila</td>
+                  <td>Frontend Developer 1</td>
+                </tr>
+                <tr>
+                  <td>Raihan Khoirul Aziz</td>
+                  <td>Frontend Developer 2</td>
+                </tr>
+                <tr>
+                  <td>Raisya Fathul Jabbar</td>
+                  <td>QA Tester & Technical Writer</td>
+                </tr>
               </tbody>
             </table>
           </div>
 
-          <h3 class="tentang-subtitle">Rencana Sprint Agile Framework (Slide 7)</h3>
+          <h3 class="tentang-subtitle">Rencana Sprint Agile Framework</h3>
           <div class="sprint-timeline">
             <div class="sprint-box">
               <span class="sprint-num">Sprint 1</span>
@@ -576,7 +624,8 @@
           <div>
             <span class="admin-badge">PORTAL RESMI PETUGAS KOTA</span>
             <h2 class="admin-title">Meja Kerja Validasi & Tindak Lanjut Aduan</h2>
-            <p class="admin-sub">Periksa keabsahan bukti foto dan lokasi laporan warga, perbarui status pengerjaan, dan berikan catatan resmi petugas.</p>
+            <p class="admin-sub">Periksa keabsahan bukti foto dan lokasi laporan warga, perbarui status pengerjaan, dan
+              berikan catatan resmi petugas.</p>
           </div>
           <div class="admin-quick-actions">
             <button type="button" class="btn-outline-red btn-sm" id="btnExportAdminCSV">Unduh Rekap CSV</button>
@@ -588,7 +637,10 @@
         <div class="petugas-kpi-grid">
           <div class="petugas-kpi-card kpi-total">
             <div class="petugas-kpi-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
             </div>
             <div class="petugas-kpi-data">
               <span class="petugas-kpi-value" id="petugasKpiTotal">0</span>
@@ -597,7 +649,10 @@
           </div>
           <div class="petugas-kpi-card kpi-pending">
             <div class="petugas-kpi-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
             </div>
             <div class="petugas-kpi-data">
               <span class="petugas-kpi-value" id="petugasKpiPending">0</span>
@@ -606,7 +661,10 @@
           </div>
           <div class="petugas-kpi-card kpi-process">
             <div class="petugas-kpi-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 14 14"></polyline>
+              </svg>
             </div>
             <div class="petugas-kpi-data">
               <span class="petugas-kpi-value" id="petugasKpiProcess">0</span>
@@ -615,7 +673,10 @@
           </div>
           <div class="petugas-kpi-card kpi-done">
             <div class="petugas-kpi-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
             </div>
             <div class="petugas-kpi-data">
               <span class="petugas-kpi-value" id="petugasKpiDone">0</span>
@@ -632,7 +693,8 @@
               <button type="button" class="tab-pill" data-status="Diproses">Sedang Diproses</button>
               <button type="button" class="tab-pill" data-status="Selesai">Selesai</button>
             </div>
-            <input type="search" id="adminSearchInput" class="field-input input-sm" placeholder="Cari No. Tiket, Judul, atau Wilayah..." aria-label="Cari aduan pada meja petugas">
+            <input type="search" id="adminSearchInput" class="field-input input-sm"
+              placeholder="Cari No. Tiket, Judul, atau Wilayah..." aria-label="Cari aduan pada meja petugas">
           </div>
 
           <div class="table-responsive">
@@ -660,11 +722,13 @@
   </main>
 
   <!-- MODAL TINDAK LANJUT PETUGAS -->
-  <div id="modalActionPetugas" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalActionTitle">
+  <div id="modalActionPetugas" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true"
+    aria-labelledby="modalActionTitle">
     <div class="lapor-modal-dialog">
       <div class="modal-top">
         <h3 id="modalActionTitle" class="modal-title-text">Tindak Lanjut Laporan Petugas</h3>
-        <button type="button" class="modal-close-icon" id="btnCloseModalAction" aria-label="Tutup dialog">&times;</button>
+        <button type="button" class="modal-close-icon" id="btnCloseModalAction"
+          aria-label="Tutup dialog">&times;</button>
       </div>
       <div class="modal-content-area" id="modalActionBody">
         <!-- Konten diisi dinamis -->
@@ -673,11 +737,13 @@
   </div>
 
   <!-- MODAL SUKSES PENGIRIMAN LAPORAN -->
-  <div id="modalSuccessReport" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalSuccessTitle">
+  <div id="modalSuccessReport" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true"
+    aria-labelledby="modalSuccessTitle">
     <div class="lapor-modal-dialog modal-dialog-sm">
       <div class="modal-top">
         <h3 id="modalSuccessTitle" class="modal-title-text">Laporan Berhasil Terkirim</h3>
-        <button type="button" class="modal-close-icon" id="btnCloseSuccessModal" aria-label="Tutup dialog">&times;</button>
+        <button type="button" class="modal-close-icon" id="btnCloseSuccessModal"
+          aria-label="Tutup dialog">&times;</button>
       </div>
       <div class="modal-content-area text-center">
         <div class="success-check-badge" aria-hidden="true">
@@ -687,9 +753,11 @@
         </div>
         <p class="success-lead">Laporan pengaduan Anda telah terdaftar dalam sistem SIPELIK dengan nomor registrasi:</p>
         <div class="ticket-big-box" id="successTicketCode">LAP-2026-0000</div>
-        <p class="success-caption">Gunakan nomor tiket ini untuk memantau kemajuan tindak lanjut dan respon dinas berwenang.</p>
+        <p class="success-caption">Gunakan nomor tiket ini untuk memantau kemajuan tindak lanjut dan respon dinas
+          berwenang.</p>
         <div class="success-modal-buttons">
-          <button type="button" class="btn-lapor-submit full-width" id="btnTrackSubmittedTicket">Lacak Tiket Sekarang</button>
+          <button type="button" class="btn-lapor-submit full-width" id="btnTrackSubmittedTicket">Lacak Tiket
+            Sekarang</button>
           <button type="button" class="btn-outline-red full-width" id="btnDoneSubmitModal">Kembali ke Beranda</button>
         </div>
       </div>
@@ -697,7 +765,8 @@
   </div>
 
   <!-- MODAL LOGIN (MASUK) -->
-  <div id="modalLogin" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalLoginTitle">
+  <div id="modalLogin" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true"
+    aria-labelledby="modalLoginTitle">
     <div class="lapor-modal-dialog modal-dialog-sm">
       <div class="modal-top">
         <h3 id="modalLoginTitle" class="modal-title-text">Masuk ke Akun SIPELIK</h3>
@@ -711,7 +780,8 @@
           </div>
           <div class="form-field">
             <label for="loginPassword" class="field-label">Kata Sandi <span class="req">*</span></label>
-            <input type="password" id="loginPassword" class="field-input" placeholder="Masukkan kata sandi Anda" required>
+            <input type="password" id="loginPassword" class="field-input" placeholder="Masukkan kata sandi Anda"
+              required>
           </div>
           <div id="loginErrorMsg" class="alert-box error hidden" role="alert"></div>
           <div class="form-submit-row">
@@ -724,7 +794,8 @@
         <!-- Login sebagai Petugas -->
         <div class="petugas-login-section">
           <button type="button" class="btn-petugas-login" id="btnLoginAsPetugas">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
             Masuk sebagai Petugas
@@ -732,14 +803,16 @@
         </div>
 
         <p class="auth-switch-text">
-          Belum memiliki akun? <button type="button" class="auth-switch-btn" id="btnSwitchToRegister">Daftar Akun Baru</button>
+          Belum memiliki akun? <button type="button" class="auth-switch-btn" id="btnSwitchToRegister">Daftar Akun
+            Baru</button>
         </p>
       </div>
     </div>
   </div>
 
   <!-- MODAL REGISTER (DAFTAR) -->
-  <div id="modalRegister" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalRegisterTitle">
+  <div id="modalRegister" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true"
+    aria-labelledby="modalRegisterTitle">
     <div class="lapor-modal-dialog modal-dialog-md">
       <div class="modal-top">
         <h3 id="modalRegisterTitle" class="modal-title-text">Pendaftaran Akun SIPELIK</h3>
@@ -767,7 +840,8 @@
               <input type="tel" id="regPhone" class="field-input" placeholder="08xxxxxxxxxx" required>
             </div>
             <div class="form-field">
-              <label for="regIdentifier" class="field-label" id="labelRegIdentifier">Nomor Induk Kependudukan (NIK) <span class="req">*</span></label>
+              <label for="regIdentifier" class="field-label" id="labelRegIdentifier">Nomor Induk Kependudukan (NIK)
+                <span class="req">*</span></label>
               <input type="text" id="regIdentifier" class="field-input" placeholder="16 digit NIK" required>
             </div>
           </div>
@@ -778,8 +852,10 @@
               <input type="password" id="regPassword" class="field-input" placeholder="Minimal 6 karakter" required>
             </div>
             <div class="form-field">
-              <label for="regConfirmPassword" class="field-label">Konfirmasi Kata Sandi <span class="req">*</span></label>
-              <input type="password" id="regConfirmPassword" class="field-input" placeholder="Ulangi kata sandi" required>
+              <label for="regConfirmPassword" class="field-label">Konfirmasi Kata Sandi <span
+                  class="req">*</span></label>
+              <input type="password" id="regConfirmPassword" class="field-input" placeholder="Ulangi kata sandi"
+                required>
             </div>
           </div>
 
@@ -790,14 +866,16 @@
           </div>
         </form>
         <p class="auth-switch-text">
-          Sudah memiliki akun? <button type="button" class="auth-switch-btn" id="btnSwitchToLogin">Masuk ke Akun Anda</button>
+          Sudah memiliki akun? <button type="button" class="auth-switch-btn" id="btnSwitchToLogin">Masuk ke Akun
+            Anda</button>
         </p>
       </div>
     </div>
   </div>
 
   <!-- MODAL PANDUAN PENGADUAN LAPOR! -->
-  <div id="modalPanduan" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalPanduanTitle">
+  <div id="modalPanduan" class="lapor-modal-backdrop hidden" role="dialog" aria-modal="true"
+    aria-labelledby="modalPanduanTitle">
     <div class="lapor-modal-dialog modal-dialog-md">
       <div class="modal-top">
         <h3 id="modalPanduanTitle" class="modal-title-text">Panduan Menyampaikan Pengaduan yang Baik</h3>
@@ -806,11 +884,16 @@
       <div class="modal-content-area guide-content">
         <h4>Tata Cara Penyampaian Aduan Lingkungan:</h4>
         <ol>
-          <li><strong>Uraikan Fakta Kejadian:</strong> Jelaskan apa yang terjadi (misal: tumpukan sampah liar, limbah cair industri, atau pohon tumbang).</li>
-          <li><strong>Sertakan Alamat & Titik Presisi:</strong> Cantumkan nama jalan, patokan terdekat, serta gunakan fitur peta Leaflet untuk menyematkan koordinat lokasi.</li>
-          <li><strong>Lampirkan Bukti Foto:</strong> Sertakan foto jelas yang memperlihatkan kondisi terkini di lapangan.</li>
-          <li><strong>Gunakan Bahasa yang Sopan dan Jelas:</strong> Hindari ujaran kebencian atau informasi palsu demi kelancaran proses validasi petugas.</li>
-          <li><strong>Simpan Kode Tiket:</strong> Anda dapat memeriksa tindak lanjut petugas di tab Lacak Tiket kapan saja.</li>
+          <li><strong>Uraikan Fakta Kejadian:</strong> Jelaskan apa yang terjadi (misal: tumpukan sampah liar, limbah
+            cair industri, atau pohon tumbang).</li>
+          <li><strong>Sertakan Alamat & Titik Presisi:</strong> Cantumkan nama jalan, patokan terdekat, serta gunakan
+            fitur peta Leaflet untuk menyematkan koordinat lokasi.</li>
+          <li><strong>Lampirkan Bukti Foto:</strong> Sertakan foto jelas yang memperlihatkan kondisi terkini di
+            lapangan.</li>
+          <li><strong>Gunakan Bahasa yang Sopan dan Jelas:</strong> Hindari ujaran kebencian atau informasi palsu demi
+            kelancaran proses validasi petugas.</li>
+          <li><strong>Simpan Kode Tiket:</strong> Anda dapat memeriksa tindak lanjut petugas di tab Lacak Tiket kapan
+            saja.</li>
         </ol>
       </div>
     </div>
@@ -836,15 +919,19 @@
         <button type="button" class="footer-link-btn" onclick="window.openPanduanModal()">PANDUAN LAPORAN</button>
       </nav>
       <div class="footer-copy">
-        <p>Hak Cipta &copy; 2026 Sistem Informasi Pelaporan Lingkungan Kota (SIPELIK) - Manajemen Proyek Perangkat Lunak (MPPL).</p>
+        <p>Hak Cipta &copy; 2026 Sistem Informasi Pelaporan Lingkungan Kota (SIMPLEgit) - Manajemen Proyek Perangkat
+          Lunak
+          (MPPL).</p>
       </div>
     </div>
   </footer>
 
   <!-- Leaflet Library -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
   <!-- Main Script -->
   <script src="app.js"></script>
 </body>
+
 </html>
