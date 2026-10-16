@@ -98,6 +98,16 @@ const DEFAULT_USERS = [
     phone: "081398765432",
     identifier: "198504122010011005",
     agency: "Dinas Lingkungan Hidup Kota"
+  },
+  {
+    id: "USR-ADM",
+    name: "Administrator SIPELIK",
+    email: "admin@sipelik.go.id",
+    password: "admin123",
+    role: "admin", // Administrator Sistem
+    phone: "081200000000",
+    identifier: "ADMIN-001",
+    agency: "Pusat Kendali SIPELIK"
   }
 ];
 
@@ -123,7 +133,19 @@ class LaporState {
   loadUsers() {
     try {
       const data = localStorage.getItem(this.usersKey);
-      if (data) return JSON.parse(data);
+      if (data) {
+        const users = JSON.parse(data);
+        // Pastikan akun admin selalu ada meski data lama tidak memilikinya
+        const hasAdmin = users.some(u => u.role === "admin");
+        if (!hasAdmin) {
+          const adminUser = DEFAULT_USERS.find(u => u.role === "admin");
+          if (adminUser) {
+            users.push(adminUser);
+            localStorage.setItem(this.usersKey, JSON.stringify(users));
+          }
+        }
+        return users;
+      }
     } catch (e) {
       console.warn("User storage read error:", e);
     }
@@ -209,7 +231,6 @@ class LaporState {
 const state = new LaporState();
 
 document.addEventListener("DOMContentLoaded", () => {
-  initTheme();
   initTabsNavigation();
   initClassificationTabs();
   initFormAndUpload();
@@ -217,26 +238,14 @@ document.addEventListener("DOMContentLoaded", () => {
   initFullLeafletMap();
   initTicketSearch();
   initAdminDesk();
+  initSuperAdminPanel();
   initModals();
   updateCounterDisplay();
   renderPublicFeed();
   renderStatistics();
 });
 
-// 1. Theme Management
-function initTheme() {
-  const toggle = document.getElementById("themeToggle");
-  const saved = localStorage.getItem("sipelik_theme") || "light";
-  document.documentElement.setAttribute("data-theme", saved);
 
-  toggle.addEventListener("click", () => {
-    const current = document.documentElement.getAttribute("data-theme");
-    const next = current === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("sipelik_theme", next);
-    showToast(`Mode tema diubah ke: ${next === 'dark' ? 'Gelap' : 'Terang'}`);
-  });
-}
 
 // 2. Tab Navigation
 function initTabsNavigation() {
@@ -272,36 +281,12 @@ function initAuthSystem() {
   const btnSwitchToReg = document.getElementById("btnSwitchToRegister");
   const btnSwitchToLog = document.getElementById("btnSwitchToLogin");
 
-  const btnDemoCitizen = document.getElementById("btnDemoCitizen");
-  const btnDemoOfficer = document.getElementById("btnDemoOfficer");
+  const btnLoginAsAdmin = document.getElementById("btnLoginAsAdmin");
 
   const formLogin = document.getElementById("formLogin");
   const formRegister = document.getElementById("formRegister");
   const loginErrorMsg = document.getElementById("loginErrorMsg");
   const registerErrorMsg = document.getElementById("registerErrorMsg");
-
-  // Radio button pilihan peran pendaftaran (Warga vs Petugas)
-  const roleRadios = document.querySelectorAll('input[name="regRole"]');
-  const labelCardCitizen = document.getElementById("labelRoleCitizen");
-  const labelCardOfficer = document.getElementById("labelRoleOfficer");
-  const labelRegIdentifier = document.getElementById("labelRegIdentifier");
-  const inputRegIdentifier = document.getElementById("regIdentifier");
-
-  roleRadios.forEach(radio => {
-    radio.addEventListener("change", () => {
-      if (radio.value === "officer") {
-        labelCardOfficer?.classList.add("active");
-        labelCardCitizen?.classList.remove("active");
-        if (labelRegIdentifier) labelRegIdentifier.innerHTML = 'Nomor Induk Pegawai (NIP / ID Petugas) <span class="req">*</span>';
-        if (inputRegIdentifier) inputRegIdentifier.placeholder = '18 digit NIP atau ID Petugas Dinas';
-      } else {
-        labelCardCitizen?.classList.add("active");
-        labelCardOfficer?.classList.remove("active");
-        if (labelRegIdentifier) labelRegIdentifier.innerHTML = 'Nomor Induk Kependudukan (NIK) <span class="req">*</span>';
-        if (inputRegIdentifier) inputRegIdentifier.placeholder = '16 digit NIK sesuai KTP';
-      }
-    });
-  });
 
   // Buka Modal Login & Register
   btnOpenLogin?.addEventListener("click", () => {
@@ -327,16 +312,10 @@ function initAuthSystem() {
     modalLogin?.classList.remove("hidden");
   });
 
-  // Tombol Akun Demo Cepat
-  btnDemoCitizen?.addEventListener("click", () => {
-    document.getElementById("loginEmail").value = "warga@sipelik.go.id";
-    document.getElementById("loginPassword").value = "warga123";
-    formLogin.dispatchEvent(new Event("submit"));
-  });
-
-  btnDemoOfficer?.addEventListener("click", () => {
-    document.getElementById("loginEmail").value = "petugas@sipelik.go.id";
-    document.getElementById("loginPassword").value = "petugas123";
+  // Tombol Login sebagai Admin
+  btnLoginAsAdmin?.addEventListener("click", () => {
+    document.getElementById("loginEmail").value = "admin@sipelik.go.id";
+    document.getElementById("loginPassword").value = "admin123";
     formLogin.dispatchEvent(new Event("submit"));
   });
 
@@ -361,9 +340,12 @@ function initAuthSystem() {
     modalLogin.classList.add("hidden");
     formLogin.reset();
 
-    showToast(`Berhasil masuk sebagai ${user.name} (${user.role === 'officer' ? 'Petugas Kota' : 'Warga'})`);
+    const roleLabel = user.role === 'admin' ? 'Administrator' : (user.role === 'officer' ? 'Petugas Kota' : 'Warga');
+    showToast(`Berhasil masuk sebagai ${user.name} (${roleLabel})`);
 
-    if (user.role === "officer") {
+    if (user.role === "admin") {
+      switchTab("tabSuperAdmin");
+    } else if (user.role === "officer") {
       switchTab("tabAdmin");
     }
   });
@@ -373,7 +355,7 @@ function initAuthSystem() {
     e.preventDefault();
     registerErrorMsg.classList.add("hidden");
 
-    const role = document.querySelector('input[name="regRole"]:checked')?.value || "citizen";
+    const role = "citizen"; // Pendaftaran publik hanya untuk akun Warga
     const name = document.getElementById("regName").value.trim();
     const email = document.getElementById("regEmail").value.trim().toLowerCase();
     const phone = document.getElementById("regPhone").value.trim();
@@ -414,7 +396,7 @@ function initAuthSystem() {
       role: role,
       phone: phone,
       identifier: identifier,
-      agency: role === "officer" ? "Dinas Lingkungan Hidup Kota" : ""
+      agency: ""
     };
 
     state.users.push(newUser);
@@ -426,10 +408,6 @@ function initAuthSystem() {
     formRegister.reset();
 
     showToast(`Pendaftaran berhasil! Selamat datang, ${newUser.name}`);
-
-    if (newUser.role === "officer") {
-      switchTab("tabAdmin");
-    }
   });
 
   // Logout
@@ -448,6 +426,7 @@ function updateAuthUI() {
   const guestGroup = document.getElementById("guestAuthGroup");
   const userGroup = document.getElementById("userAuthGroup");
   const navLinkAdmin = document.getElementById("navLinkAdmin");
+  const navLinkSuperAdmin = document.getElementById("navLinkSuperAdmin");
   const userInitial = document.getElementById("userAvatarInitial");
   const userName = document.getElementById("userDisplayName");
   const userRole = document.getElementById("userDisplayRole");
@@ -459,25 +438,39 @@ function updateAuthUI() {
     if (userInitial) userInitial.textContent = state.currentUser.name.charAt(0).toUpperCase();
     if (userName) userName.textContent = state.currentUser.name;
     if (userRole) {
-      userRole.textContent = state.currentUser.role === "officer" ? "Petugas Kota" : "Warga";
-      userRole.style.color = state.currentUser.role === "officer" ? "var(--lapor-red-main)" : "#059669";
+      const roleLabel = state.currentUser.role === "admin" ? "Administrator" : (state.currentUser.role === "officer" ? "Petugas Kota" : "Warga");
+      userRole.textContent = roleLabel;
+      userRole.style.color = state.currentUser.role === "admin" ? "#7c3aed" : (state.currentUser.role === "officer" ? "var(--lapor-red-main)" : "#059669");
     }
 
+    // Tampilkan nav link berdasarkan peran
     if (state.currentUser.role === "officer") {
       navLinkAdmin?.classList.remove("hidden");
+      navLinkSuperAdmin?.classList.add("hidden");
+    } else if (state.currentUser.role === "admin") {
+      navLinkAdmin?.classList.remove("hidden"); // Admin bisa akses panel petugas juga
+      navLinkSuperAdmin?.classList.remove("hidden");
     } else {
       navLinkAdmin?.classList.add("hidden");
+      navLinkSuperAdmin?.classList.add("hidden");
     }
   } else {
     guestGroup?.classList.remove("hidden");
     userGroup?.classList.add("hidden");
     navLinkAdmin?.classList.add("hidden");
+    navLinkSuperAdmin?.classList.add("hidden");
   }
 }
 
 window.switchTab = function(tabId) {
-  if (tabId === "tabAdmin" && (!state.currentUser || state.currentUser.role !== "officer")) {
-    showToast("Akses Panel Petugas memerlukan akun Petugas Kota. Silakan masuk terlebih dahulu.");
+  if (tabId === "tabAdmin" && (!state.currentUser || (state.currentUser.role !== "officer" && state.currentUser.role !== "admin"))) {
+    showToast("Akses Panel Petugas memerlukan akun Petugas Kota atau Admin. Silakan masuk terlebih dahulu.");
+    document.getElementById("modalLogin")?.classList.remove("hidden");
+    return;
+  }
+
+  if (tabId === "tabSuperAdmin" && (!state.currentUser || state.currentUser.role !== "admin")) {
+    showToast("Akses Panel Admin memerlukan akun Administrator. Silakan masuk terlebih dahulu.");
     document.getElementById("modalLogin")?.classList.remove("hidden");
     return;
   }
@@ -501,6 +494,9 @@ window.switchTab = function(tabId) {
   }
   if (tabId === "tabAdmin") {
     renderAdminTable();
+  }
+  if (tabId === "tabSuperAdmin") {
+    renderSuperAdminPanel();
   }
 };
 
@@ -1180,3 +1176,87 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+// 15. Panel Super Admin (Halaman Khusus Admin)
+function initSuperAdminPanel() {
+  document.getElementById("btnSaRefresh")?.addEventListener("click", () => {
+    renderSuperAdminPanel();
+    showToast("Data dashboard admin berhasil disegarkan.");
+  });
+  document.getElementById("btnSaExportCSV")?.addEventListener("click", exportReportsCSV);
+}
+
+function renderSuperAdminPanel() {
+  // KPI
+  const totalReports = state.reports.length;
+  const totalUsers = state.users.length;
+  const pending = state.reports.filter(r => r.status === "Menunggu Verifikasi").length;
+  const completed = state.reports.filter(r => r.status === "Selesai").length;
+
+  const saKpiTotal = document.getElementById("saKpiTotalReports");
+  const saKpiUsers = document.getElementById("saKpiTotalUsers");
+  const saKpiPending = document.getElementById("saKpiPending");
+  const saKpiCompleted = document.getElementById("saKpiCompleted");
+
+  if (saKpiTotal) saKpiTotal.textContent = totalReports;
+  if (saKpiUsers) saKpiUsers.textContent = totalUsers;
+  if (saKpiPending) saKpiPending.textContent = pending;
+  if (saKpiCompleted) saKpiCompleted.textContent = completed;
+
+  // Tabel Pengguna
+  const userTbody = document.getElementById("saUserTableBody");
+  if (userTbody) {
+    userTbody.innerHTML = state.users.map(u => {
+      const roleLabel = u.role === "admin" ? "Administrator" : (u.role === "officer" ? "Petugas Kota" : "Warga");
+      const roleClass = u.role === "admin" ? "sa-role-admin" : (u.role === "officer" ? "sa-role-officer" : "sa-role-citizen");
+      return `
+        <tr>
+          <td><strong>${escapeHtml(u.id)}</strong></td>
+          <td>${escapeHtml(u.name)}</td>
+          <td>${escapeHtml(u.email)}</td>
+          <td><span class="sa-role-pill ${roleClass}">${roleLabel}</span></td>
+          <td>${escapeHtml(u.phone)}</td>
+          <td>
+            ${u.role !== "admin" ? `<button type="button" class="btn-outline-red btn-sm" onclick="window.deleteUser('${u.id}')">Hapus</button>` : '<span style="font-size:0.75rem; color:var(--text-muted);">—</span>'}
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  // Tabel Laporan
+  const reportTbody = document.getElementById("saReportsTableBody");
+  if (reportTbody) {
+    reportTbody.innerHTML = state.reports.map(item => `
+      <tr>
+        <td><strong>${escapeHtml(item.id)}</strong></td>
+        <td>${item.date}</td>
+        <td>${escapeHtml(item.category)}</td>
+        <td><strong>${escapeHtml(item.title)}</strong></td>
+        <td>${escapeHtml(item.district)}</td>
+        <td><span class="status-tag ${getStatusClass(item.status)}">${escapeHtml(item.status)}</span></td>
+        <td>
+          <button type="button" class="btn-outline-red btn-sm" onclick="window.openActionModal('${item.id}')">
+            Tindak Lanjut
+          </button>
+        </td>
+      </tr>
+    `).join("");
+  }
+}
+
+window.deleteUser = function(userId) {
+  const userIndex = state.users.findIndex(u => u.id === userId);
+  if (userIndex === -1) return;
+
+  const user = state.users[userIndex];
+  if (user.role === "admin") {
+    showToast("Akun administrator tidak dapat dihapus.");
+    return;
+  }
+
+  state.users.splice(userIndex, 1);
+  state.saveUsers();
+  renderSuperAdminPanel();
+  showToast(`Akun ${user.name} berhasil dihapus dari sistem.`);
+};

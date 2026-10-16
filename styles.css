@@ -40,28 +40,7 @@
   --radius-lg: 12px;
 }
 
-/* Dark Theme Support (Tested for WCAG AA Contrast) */
-[data-theme="dark"] {
-  --lapor-red-main: #e11d48;
-  --lapor-red-dark: #be123c;
-  --lapor-red-light: #4c0519;
-  --lapor-red-border: #fb7185;
-  --lapor-red-hover: #f43f5e;
 
-  --bg-page: #090d16;
-  --surface-card: #131b2e;
-  --surface-subtle: #1e293b;
-  --border-light: #1f293d;
-  --border-medium: #334155;
-
-  --text-title: #f8fafc;
-  --text-body: #cbd5e1;
-  --text-muted: #94a3b8;
-
-  --focus-ring: #fb7185;
-  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
 
 /* Global Reset */
 *, *::before, *::after {
@@ -312,23 +291,7 @@ body {
   border-color: var(--lapor-red-border);
 }
 
-.theme-toggle-btn {
-  width: 36px;
-  height: 36px;
-  background: var(--surface-card);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-[data-theme="light"] .moon-icon { display: block; }
-[data-theme="light"] .sun-icon { display: none; }
-[data-theme="dark"] .moon-icon { display: none; }
-[data-theme="dark"] .sun-icon { display: block; }
 
 /* 2. Hero Merah Khas LAPOR! (Screenshot 1) */
 .lapor-hero {
@@ -350,10 +313,7 @@ body {
   background-size: cover;
 }
 
-[data-theme="dark"] .hero-overlay-waves {
-  background: url("data:image/svg+xml;utf8,<svg viewBox='0 0 1200 120' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'><path d='M0,0 C300,90 800,90 1200,0 L1200,120 L0,120 Z' fill='%23090d16'/></svg>") no-repeat center bottom;
-  background-size: cover;
-}
+
 
 .hero-content {
   max-width: 800px;
@@ -1709,68 +1669,6 @@ body {
   color: #64748b;
 }
 
-/* 16. Quick Demo & Auth Modal Styles */
-.quick-demo-accounts {
-  background-color: var(--surface-subtle);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-sm);
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.quick-demo-hint {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  margin-bottom: 0.5rem;
-}
-
-.quick-demo-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-demo-chip {
-  flex: 1;
-  background-color: var(--surface-card);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-sm);
-  padding: 0.5rem;
-  font-family: inherit;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-title);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  transition: all 0.15s ease;
-}
-
-.btn-demo-chip:hover {
-  border-color: var(--lapor-red-main);
-  background-color: var(--lapor-red-light);
-}
-
-.demo-chip-role {
-  font-size: 0.625rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 0.125rem 0.375rem;
-  border-radius: 3px;
-}
-
-.demo-chip-role.citizen {
-  background-color: #d1fae5;
-  color: #065f46;
-}
-
-.demo-chip-role.officer {
-  background-color: var(--lapor-red-light);
-  color: var(--lapor-red-main);
-}
-
 .auth-divider {
   display: flex;
   align-items: center;
@@ -1808,57 +1706,179 @@ body {
   text-decoration: underline;
 }
 
-/* Register Role Picker */
-.register-role-picker {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  margin-top: 0.25rem;
+/* Admin Login Button */
+.admin-login-section {
+  text-align: center;
 }
 
-@media (max-width: 580px) {
-  .register-role-picker {
-    grid-template-columns: 1fr;
+.btn-admin-login {
+  width: 100%;
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+  min-height: 44px;
+}
+
+.btn-admin-login:hover {
+  background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+}
+
+/* Super Admin Dashboard */
+.super-admin-header {
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.sa-badge {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.1875rem 0.625rem;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.sa-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.375rem;
+}
+
+.sa-subtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.sa-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .sa-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.role-radio-card {
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-sm);
-  padding: 0.75rem;
-  cursor: pointer;
+.sa-kpi-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
   display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  background-color: var(--surface-subtle);
-  transition: all 0.15s ease;
+  align-items: center;
+  gap: 1rem;
 }
 
-.role-radio-card.active {
-  border-color: var(--lapor-red-main);
-  background-color: var(--lapor-red-light);
+.sa-kpi-card.kpi-reports { border-left: 4px solid #7c3aed; }
+.sa-kpi-card.kpi-users { border-left: 4px solid #0284c7; }
+.sa-kpi-card.kpi-pending { border-left: 4px solid #d97706; }
+.sa-kpi-card.kpi-done { border-left: 4px solid #059669; }
+
+.sa-kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.role-radio-card input {
-  margin-top: 0.2rem;
-  accent-color: var(--lapor-red-main);
-}
+.kpi-reports .sa-kpi-icon { background-color: #ede9fe; color: #7c3aed; }
+.kpi-users .sa-kpi-icon { background-color: #e0f2fe; color: #0284c7; }
+.kpi-pending .sa-kpi-icon { background-color: #fef3c7; color: #d97706; }
+.kpi-done .sa-kpi-icon { background-color: #d1fae5; color: #059669; }
 
-.role-radio-body {
+.sa-kpi-data {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
 }
 
-.role-radio-body strong {
-  font-size: 0.8125rem;
+.sa-kpi-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-title);
+  line-height: 1.1;
+}
+
+.sa-kpi-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.sa-section-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sa-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sa-section-title {
+  font-size: 1.125rem;
+  font-weight: 800;
   color: var(--text-title);
 }
 
-.role-radio-body span {
-  font-size: 0.6875rem;
+.sa-section-desc {
+  font-size: 0.8125rem;
   color: var(--text-muted);
-  line-height: 1.3;
+  margin-top: 0.125rem;
+}
+
+.sa-role-pill {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  padding: 0.1875rem 0.5rem;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.sa-role-admin {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+.sa-role-officer {
+  background-color: var(--lapor-red-light);
+  color: var(--lapor-red-main);
+}
+
+.sa-role-citizen {
+  background-color: #d1fae5;
+  color: #065f46;
 }
 
 /* Utility Helpers */

@@ -47,6 +47,7 @@
         <button type="button" class="nav-link" data-tab="tabStatistik">STATISTIK</button>
         <button type="button" class="nav-link" data-tab="tabTentang">TENTANG SIPELIK</button>
         <button type="button" class="nav-link hidden" id="navLinkAdmin" data-tab="tabAdmin">PANEL PETUGAS</button>
+        <button type="button" class="nav-link hidden" id="navLinkSuperAdmin" data-tab="tabSuperAdmin">PANEL ADMIN</button>
       </nav>
 
       <div class="nav-actions">
@@ -67,23 +68,6 @@
           <button type="button" class="btn-auth-logout" id="btnLogout" title="Keluar dari akun">Keluar</button>
         </div>
 
-        <div class="nav-vertical-divider" aria-hidden="true"></div>
-
-        <!-- Tombol Ganti Tema (Terang / Gelap) -->
-        <button type="button" class="theme-toggle-btn" id="themeToggle" title="Ganti Mode Tema" aria-label="Ganti mode terang atau gelap">
-          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-          </svg>
-          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
       </div>
     </div>
   </header>
@@ -634,6 +618,119 @@
       </section>
     </div>
 
+    <!-- ============================================================== -->
+    <!-- TAB 7: PANEL SUPER ADMIN (HALAMAN KHUSUS ADMIN)                -->
+    <!-- ============================================================== -->
+    <div id="tabSuperAdmin" class="tab-page hidden">
+      <section class="page-container">
+        <div class="super-admin-header">
+          <div class="sa-header-left">
+            <span class="sa-badge">ADMINISTRATOR SISTEM</span>
+            <h2 class="sa-title">Dashboard Administrator SIPELIK</h2>
+            <p class="sa-subtitle">Pengelolaan sistem, manajemen pengguna, dan ringkasan operasional platform pengaduan lingkungan kota.</p>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="sa-kpi-grid">
+          <div class="sa-kpi-card kpi-reports">
+            <div class="sa-kpi-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </div>
+            <div class="sa-kpi-data">
+              <span class="sa-kpi-value" id="saKpiTotalReports">0</span>
+              <span class="sa-kpi-label">Total Laporan</span>
+            </div>
+          </div>
+          <div class="sa-kpi-card kpi-users">
+            <div class="sa-kpi-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div class="sa-kpi-data">
+              <span class="sa-kpi-value" id="saKpiTotalUsers">0</span>
+              <span class="sa-kpi-label">Pengguna Terdaftar</span>
+            </div>
+          </div>
+          <div class="sa-kpi-card kpi-pending">
+            <div class="sa-kpi-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="sa-kpi-data">
+              <span class="sa-kpi-value" id="saKpiPending">0</span>
+              <span class="sa-kpi-label">Menunggu Verifikasi</span>
+            </div>
+          </div>
+          <div class="sa-kpi-card kpi-done">
+            <div class="sa-kpi-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div class="sa-kpi-data">
+              <span class="sa-kpi-value" id="saKpiCompleted">0</span>
+              <span class="sa-kpi-label">Selesai Ditangani</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manajemen Pengguna -->
+        <div class="sa-section-card">
+          <div class="sa-section-header">
+            <h3 class="sa-section-title">Manajemen Pengguna</h3>
+            <p class="sa-section-desc">Daftar seluruh akun pengguna yang terdaftar dalam sistem SIPELIK.</p>
+          </div>
+          <div class="table-responsive">
+            <table class="lapor-data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nama Lengkap</th>
+                  <th>Email</th>
+                  <th>Peran</th>
+                  <th>Telepon</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="saUserTableBody">
+                <!-- Diisi secara dinamis -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Seluruh Laporan -->
+        <div class="sa-section-card">
+          <div class="sa-section-header">
+            <div>
+              <h3 class="sa-section-title">Seluruh Laporan Masuk</h3>
+              <p class="sa-section-desc">Monitoring dan pengelolaan seluruh laporan pengaduan di sistem.</p>
+            </div>
+            <div class="admin-quick-actions">
+              <button type="button" class="btn-outline-red btn-sm" id="btnSaExportCSV">Unduh CSV</button>
+              <button type="button" class="btn-lapor-submit btn-sm" id="btnSaRefresh">Segarkan</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="lapor-data-table">
+              <thead>
+                <tr>
+                  <th>No. Tiket</th>
+                  <th>Waktu</th>
+                  <th>Kategori</th>
+                  <th>Judul Aduan</th>
+                  <th>Wilayah</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="saReportsTableBody">
+                <!-- Diisi secara dinamis -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
   </main>
 
   <!-- MODAL TINDAK LANJUT PETUGAS -->
@@ -681,23 +778,6 @@
         <button type="button" class="modal-close-icon" id="btnCloseLogin" aria-label="Tutup dialog">&times;</button>
       </div>
       <div class="modal-content-area">
-        <!-- Pilihan Cepat Demo Akun -->
-        <div class="quick-demo-accounts">
-          <p class="quick-demo-hint">Pilih akun demo cepat untuk pengujian:</p>
-          <div class="quick-demo-buttons">
-            <button type="button" class="btn-demo-chip" id="btnDemoCitizen">
-              <span class="demo-chip-role citizen">Warga</span>
-              <span>Budi Santoso</span>
-            </button>
-            <button type="button" class="btn-demo-chip" id="btnDemoOfficer">
-              <span class="demo-chip-role officer">Petugas</span>
-              <span>Ir. Hendro Wibowo</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="auth-divider"><span>atau gunakan email dan kata sandi</span></div>
-
         <form id="formLogin" class="lapor-form" novalidate>
           <div class="form-field">
             <label for="loginEmail" class="field-label">Email atau Nama Pengguna <span class="req">*</span></label>
@@ -712,6 +792,19 @@
             <button type="submit" class="btn-lapor-submit full-width" id="btnSubmitLogin">Masuk Sekarang</button>
           </div>
         </form>
+
+        <div class="auth-divider"><span>atau</span></div>
+
+        <!-- Login sebagai Admin -->
+        <div class="admin-login-section">
+          <button type="button" class="btn-admin-login" id="btnLoginAsAdmin">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            Masuk sebagai Admin
+          </button>
+        </div>
+
         <p class="auth-switch-text">
           Belum memiliki akun? <button type="button" class="auth-switch-btn" id="btnSwitchToRegister">Daftar Akun Baru</button>
         </p>
@@ -728,25 +821,8 @@
       </div>
       <div class="modal-content-area">
         <form id="formRegister" class="lapor-form" novalidate>
-          <div class="form-field">
-            <label class="field-label">Pilih Jenis Akun <span class="req">*</span></label>
-            <div class="register-role-picker">
-              <label class="role-radio-card active" id="labelRoleCitizen">
-                <input type="radio" name="regRole" value="citizen" checked>
-                <div class="role-radio-body">
-                  <strong>Akun Warga / Masyarakat</strong>
-                  <span>Untuk menyampaikan aduan dan melacak progres penyelesaian.</span>
-                </div>
-              </label>
-              <label class="role-radio-card" id="labelRoleOfficer">
-                <input type="radio" name="regRole" value="officer">
-                <div class="role-radio-body">
-                  <strong>Akun Petugas Dinas Kota</strong>
-                  <span>Untuk memvalidasi laporan dan mengelola tindak lanjut lapangan.</span>
-                </div>
-              </label>
-            </div>
-          </div>
+          <!-- Akun pendaftaran hanya untuk Warga -->
+          <input type="hidden" name="regRole" value="citizen">
 
           <div class="form-field-row">
             <div class="form-field">
