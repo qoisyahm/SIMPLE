@@ -1706,16 +1706,16 @@ body {
   text-decoration: underline;
 }
 
-/* Admin Login Button */
-.admin-login-section {
+/* Petugas Login Button */
+.petugas-login-section {
   text-align: center;
 }
 
-.btn-admin-login {
+.btn-petugas-login {
   width: 100%;
-  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+  background-color: #1e293b;
   color: #ffffff;
-  border: none;
+  border: 1px solid #334155;
   padding: 0.75rem 1.5rem;
   font-family: inherit;
   font-size: 0.875rem;
@@ -1730,42 +1730,13 @@ body {
   min-height: 44px;
 }
 
-.btn-admin-login:hover {
-  background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+.btn-petugas-login:hover {
+  background-color: #0f172a;
+  border-color: #0f172a;
 }
 
-/* Super Admin Dashboard */
-.super-admin-header {
-  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
-  color: #ffffff;
-  border-radius: var(--radius-lg);
-  padding: 2rem 2.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.sa-badge {
-  font-size: 0.6875rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 0.1875rem 0.625rem;
-  border-radius: var(--radius-sm);
-  display: inline-block;
-  margin-bottom: 0.5rem;
-}
-
-.sa-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 0.375rem;
-}
-
-.sa-subtitle {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.sa-kpi-grid {
+/* Petugas Portal KPI Dashboard */
+.petugas-kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
@@ -1773,12 +1744,12 @@ body {
 }
 
 @media (max-width: 768px) {
-  .sa-kpi-grid {
+  .petugas-kpi-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.sa-kpi-card {
+.petugas-kpi-card {
   background-color: var(--surface-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
@@ -1787,14 +1758,20 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.sa-kpi-card.kpi-reports { border-left: 4px solid #7c3aed; }
-.sa-kpi-card.kpi-users { border-left: 4px solid #0284c7; }
-.sa-kpi-card.kpi-pending { border-left: 4px solid #d97706; }
-.sa-kpi-card.kpi-done { border-left: 4px solid #059669; }
+.petugas-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
 
-.sa-kpi-icon {
+.petugas-kpi-card.kpi-total { border-left: 4px solid #1e293b; }
+.petugas-kpi-card.kpi-pending { border-left: 4px solid #d97706; }
+.petugas-kpi-card.kpi-process { border-left: 4px solid #0284c7; }
+.petugas-kpi-card.kpi-done { border-left: 4px solid #059669; }
+
+.petugas-kpi-icon {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-sm);
@@ -1804,81 +1781,27 @@ body {
   flex-shrink: 0;
 }
 
-.kpi-reports .sa-kpi-icon { background-color: #ede9fe; color: #7c3aed; }
-.kpi-users .sa-kpi-icon { background-color: #e0f2fe; color: #0284c7; }
-.kpi-pending .sa-kpi-icon { background-color: #fef3c7; color: #d97706; }
-.kpi-done .sa-kpi-icon { background-color: #d1fae5; color: #059669; }
+.kpi-total .petugas-kpi-icon { background-color: #f1f5f9; color: #1e293b; }
+.kpi-pending .petugas-kpi-icon { background-color: #fef3c7; color: #d97706; }
+.kpi-process .petugas-kpi-icon { background-color: #e0f2fe; color: #0284c7; }
+.kpi-done .petugas-kpi-icon { background-color: #d1fae5; color: #059669; }
 
-.sa-kpi-data {
+.petugas-kpi-data {
   display: flex;
   flex-direction: column;
 }
 
-.sa-kpi-value {
+.petugas-kpi-value {
   font-size: 1.75rem;
   font-weight: 800;
   color: var(--text-title);
   line-height: 1.1;
 }
 
-.sa-kpi-label {
+.petugas-kpi-label {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-muted);
-}
-
-.sa-section-card {
-  background-color: var(--surface-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.sa-section-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.sa-section-title {
-  font-size: 1.125rem;
-  font-weight: 800;
-  color: var(--text-title);
-}
-
-.sa-section-desc {
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  margin-top: 0.125rem;
-}
-
-.sa-role-pill {
-  font-size: 0.6875rem;
-  font-weight: 800;
-  padding: 0.1875rem 0.5rem;
-  border-radius: var(--radius-sm);
-  display: inline-block;
-  text-transform: uppercase;
-}
-
-.sa-role-admin {
-  background-color: #ede9fe;
-  color: #5b21b6;
-}
-
-.sa-role-officer {
-  background-color: var(--lapor-red-light);
-  color: var(--lapor-red-main);
-}
-
-.sa-role-citizen {
-  background-color: #d1fae5;
-  color: #065f46;
 }
 
 /* Utility Helpers */

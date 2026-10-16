@@ -135,12 +135,12 @@ class LaporState {
       const data = localStorage.getItem(this.usersKey);
       if (data) {
         const users = JSON.parse(data);
-        // Pastikan akun admin selalu ada meski data lama tidak memilikinya
-        const hasAdmin = users.some(u => u.role === "admin");
-        if (!hasAdmin) {
-          const adminUser = DEFAULT_USERS.find(u => u.role === "admin");
-          if (adminUser) {
-            users.push(adminUser);
+        // Pastikan akun petugas selalu ada meski data lama tidak memilikinya
+        const hasOfficer = users.some(u => u.role === "officer");
+        if (!hasOfficer) {
+          const officerUser = DEFAULT_USERS.find(u => u.role === "officer");
+          if (officerUser) {
+            users.push(officerUser);
             localStorage.setItem(this.usersKey, JSON.stringify(users));
           }
         }
@@ -238,7 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initFullLeafletMap();
   initTicketSearch();
   initAdminDesk();
-  initSuperAdminPanel();
   initModals();
   updateCounterDisplay();
   renderPublicFeed();
@@ -281,7 +280,7 @@ function initAuthSystem() {
   const btnSwitchToReg = document.getElementById("btnSwitchToRegister");
   const btnSwitchToLog = document.getElementById("btnSwitchToLogin");
 
-  const btnLoginAsAdmin = document.getElementById("btnLoginAsAdmin");
+  const btnLoginAsPetugas = document.getElementById("btnLoginAsPetugas");
 
   const formLogin = document.getElementById("formLogin");
   const formRegister = document.getElementById("formRegister");
@@ -312,10 +311,10 @@ function initAuthSystem() {
     modalLogin?.classList.remove("hidden");
   });
 
-  // Tombol Login sebagai Admin
-  btnLoginAsAdmin?.addEventListener("click", () => {
-    document.getElementById("loginEmail").value = "admin@sipelik.go.id";
-    document.getElementById("loginPassword").value = "admin123";
+  // Tombol Login sebagai Petugas
+  btnLoginAsPetugas?.addEventListener("click", () => {
+    document.getElementById("loginEmail").value = "petugas@sipelik.go.id";
+    document.getElementById("loginPassword").value = "petugas123";
     formLogin.dispatchEvent(new Event("submit"));
   });
 
@@ -340,12 +339,11 @@ function initAuthSystem() {
     modalLogin.classList.add("hidden");
     formLogin.reset();
 
-    const roleLabel = user.role === 'admin' ? 'Administrator' : (user.role === 'officer' ? 'Petugas Kota' : 'Warga');
+    const roleLabel = (user.role === 'officer' || user.role === 'admin') ? 'Petugas Kota' : 'Warga';
     showToast(`Berhasil masuk sebagai ${user.name} (${roleLabel})`);
 
-    if (user.role === "admin") {
-      switchTab("tabSuperAdmin");
-    } else if (user.role === "officer") {
+    // Ketika petugas login, langsung arahkan ke halaman khusus petugas (Panel Petugas)
+    if (user.role === "officer" || user.role === "admin") {
       switchTab("tabAdmin");
     }
   });
@@ -426,7 +424,6 @@ function updateAuthUI() {
   const guestGroup = document.getElementById("guestAuthGroup");
   const userGroup = document.getElementById("userAuthGroup");
   const navLinkAdmin = document.getElementById("navLinkAdmin");
-  const navLinkSuperAdmin = document.getElementById("navLinkSuperAdmin");
   const userInitial = document.getElementById("userAvatarInitial");
   const userName = document.getElementById("userDisplayName");
   const userRole = document.getElementById("userDisplayRole");
@@ -438,39 +435,27 @@ function updateAuthUI() {
     if (userInitial) userInitial.textContent = state.currentUser.name.charAt(0).toUpperCase();
     if (userName) userName.textContent = state.currentUser.name;
     if (userRole) {
-      const roleLabel = state.currentUser.role === "admin" ? "Administrator" : (state.currentUser.role === "officer" ? "Petugas Kota" : "Warga");
-      userRole.textContent = roleLabel;
-      userRole.style.color = state.currentUser.role === "admin" ? "#7c3aed" : (state.currentUser.role === "officer" ? "var(--lapor-red-main)" : "#059669");
+      const isOfficer = state.currentUser.role === "officer" || state.currentUser.role === "admin";
+      userRole.textContent = isOfficer ? "Petugas Kota" : "Warga";
+      userRole.style.color = isOfficer ? "var(--lapor-red-main)" : "#059669";
     }
 
-    // Tampilkan nav link berdasarkan peran
-    if (state.currentUser.role === "officer") {
+    // Tampilkan nav link Panel Petugas hanya untuk akun Petugas
+    if (state.currentUser.role === "officer" || state.currentUser.role === "admin") {
       navLinkAdmin?.classList.remove("hidden");
-      navLinkSuperAdmin?.classList.add("hidden");
-    } else if (state.currentUser.role === "admin") {
-      navLinkAdmin?.classList.remove("hidden"); // Admin bisa akses panel petugas juga
-      navLinkSuperAdmin?.classList.remove("hidden");
     } else {
       navLinkAdmin?.classList.add("hidden");
-      navLinkSuperAdmin?.classList.add("hidden");
     }
   } else {
     guestGroup?.classList.remove("hidden");
     userGroup?.classList.add("hidden");
     navLinkAdmin?.classList.add("hidden");
-    navLinkSuperAdmin?.classList.add("hidden");
   }
 }
 
 window.switchTab = function(tabId) {
   if (tabId === "tabAdmin" && (!state.currentUser || (state.currentUser.role !== "officer" && state.currentUser.role !== "admin"))) {
-    showToast("Akses Panel Petugas memerlukan akun Petugas Kota atau Admin. Silakan masuk terlebih dahulu.");
-    document.getElementById("modalLogin")?.classList.remove("hidden");
-    return;
-  }
-
-  if (tabId === "tabSuperAdmin" && (!state.currentUser || state.currentUser.role !== "admin")) {
-    showToast("Akses Panel Admin memerlukan akun Administrator. Silakan masuk terlebih dahulu.");
+    showToast("Akses Panel Petugas khusus untuk akun Petugas Kota. Silakan masuk sebagai petugas.");
     document.getElementById("modalLogin")?.classList.remove("hidden");
     return;
   }
@@ -494,9 +479,6 @@ window.switchTab = function(tabId) {
   }
   if (tabId === "tabAdmin") {
     renderAdminTable();
-  }
-  if (tabId === "tabSuperAdmin") {
-    renderSuperAdminPanel();
   }
 };
 
@@ -969,6 +951,17 @@ function initAdminDesk() {
 }
 
 function renderAdminTable() {
+  // Perbarui Kartu Ringkasan KPI Petugas
+  const kpiTotal = document.getElementById("petugasKpiTotal");
+  const kpiPending = document.getElementById("petugasKpiPending");
+  const kpiProcess = document.getElementById("petugasKpiProcess");
+  const kpiDone = document.getElementById("petugasKpiDone");
+
+  if (kpiTotal) kpiTotal.textContent = state.reports.length;
+  if (kpiPending) kpiPending.textContent = state.reports.filter(r => r.status === "Menunggu Verifikasi").length;
+  if (kpiProcess) kpiProcess.textContent = state.reports.filter(r => r.status === "Diproses").length;
+  if (kpiDone) kpiDone.textContent = state.reports.filter(r => r.status === "Selesai").length;
+
   const tbody = document.getElementById("adminReportsTableBody");
   if (!tbody) return;
 
@@ -1176,87 +1169,3 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-
-// 15. Panel Super Admin (Halaman Khusus Admin)
-function initSuperAdminPanel() {
-  document.getElementById("btnSaRefresh")?.addEventListener("click", () => {
-    renderSuperAdminPanel();
-    showToast("Data dashboard admin berhasil disegarkan.");
-  });
-  document.getElementById("btnSaExportCSV")?.addEventListener("click", exportReportsCSV);
-}
-
-function renderSuperAdminPanel() {
-  // KPI
-  const totalReports = state.reports.length;
-  const totalUsers = state.users.length;
-  const pending = state.reports.filter(r => r.status === "Menunggu Verifikasi").length;
-  const completed = state.reports.filter(r => r.status === "Selesai").length;
-
-  const saKpiTotal = document.getElementById("saKpiTotalReports");
-  const saKpiUsers = document.getElementById("saKpiTotalUsers");
-  const saKpiPending = document.getElementById("saKpiPending");
-  const saKpiCompleted = document.getElementById("saKpiCompleted");
-
-  if (saKpiTotal) saKpiTotal.textContent = totalReports;
-  if (saKpiUsers) saKpiUsers.textContent = totalUsers;
-  if (saKpiPending) saKpiPending.textContent = pending;
-  if (saKpiCompleted) saKpiCompleted.textContent = completed;
-
-  // Tabel Pengguna
-  const userTbody = document.getElementById("saUserTableBody");
-  if (userTbody) {
-    userTbody.innerHTML = state.users.map(u => {
-      const roleLabel = u.role === "admin" ? "Administrator" : (u.role === "officer" ? "Petugas Kota" : "Warga");
-      const roleClass = u.role === "admin" ? "sa-role-admin" : (u.role === "officer" ? "sa-role-officer" : "sa-role-citizen");
-      return `
-        <tr>
-          <td><strong>${escapeHtml(u.id)}</strong></td>
-          <td>${escapeHtml(u.name)}</td>
-          <td>${escapeHtml(u.email)}</td>
-          <td><span class="sa-role-pill ${roleClass}">${roleLabel}</span></td>
-          <td>${escapeHtml(u.phone)}</td>
-          <td>
-            ${u.role !== "admin" ? `<button type="button" class="btn-outline-red btn-sm" onclick="window.deleteUser('${u.id}')">Hapus</button>` : '<span style="font-size:0.75rem; color:var(--text-muted);">—</span>'}
-          </td>
-        </tr>
-      `;
-    }).join("");
-  }
-
-  // Tabel Laporan
-  const reportTbody = document.getElementById("saReportsTableBody");
-  if (reportTbody) {
-    reportTbody.innerHTML = state.reports.map(item => `
-      <tr>
-        <td><strong>${escapeHtml(item.id)}</strong></td>
-        <td>${item.date}</td>
-        <td>${escapeHtml(item.category)}</td>
-        <td><strong>${escapeHtml(item.title)}</strong></td>
-        <td>${escapeHtml(item.district)}</td>
-        <td><span class="status-tag ${getStatusClass(item.status)}">${escapeHtml(item.status)}</span></td>
-        <td>
-          <button type="button" class="btn-outline-red btn-sm" onclick="window.openActionModal('${item.id}')">
-            Tindak Lanjut
-          </button>
-        </td>
-      </tr>
-    `).join("");
-  }
-}
-
-window.deleteUser = function(userId) {
-  const userIndex = state.users.findIndex(u => u.id === userId);
-  if (userIndex === -1) return;
-
-  const user = state.users[userIndex];
-  if (user.role === "admin") {
-    showToast("Akun administrator tidak dapat dihapus.");
-    return;
-  }
-
-  state.users.splice(userIndex, 1);
-  state.saveUsers();
-  renderSuperAdminPanel();
-  showToast(`Akun ${user.name} berhasil dihapus dari sistem.`);
-};
